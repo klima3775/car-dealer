@@ -2,37 +2,35 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { getMakes } from "../api/getMakes";
 
 export default function HomePage() {
   const [makes, setMakes] = useState([]);
   const [selectedMake, setSelectedMake] = useState("");
   const [selectedYear, setSelectedYear] = useState("");
   const router = useRouter();
-
+  const currentYear = new Date().getFullYear();
   const years = Array.from(
-    { length: new Date().getFullYear() - 2014 },
-    (_, i) => 2015 + i
+    { length: new Date().getFullYear() - 2009 },
+    (_, i) => 2010 + i
   );
 
   useEffect(() => {
-    fetch(
-      "https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json"
-    )
-      .then((res) => res.json())
-      .then((data) => setMakes(data.Results))
-      .catch((error) => console.error("Ошибка загрузки марок:", error));
+    getMakes()
+      .then((data) => setMakes(data))
+      .catch((error) => console.error("Error loading car brands:", error));
   }, []);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen  p-4">
-      <h1 className="text-2xl font-bold mb-4">Выберите автомобиль</h1>
+      <h1 className="text-2xl font-bold mb-4">Select a car</h1>
       <div className="w-full max-w-md space-y-4">
         <select
           className="w-full p-2 border rounded"
           value={selectedMake}
           onChange={(e) => setSelectedMake(e.target.value)}
         >
-          <option value="">Выберите марку</option>
+          <option value="">Select a car brands</option>
           {makes.map((make) => (
             <option key={make.MakeId} value={make.MakeId}>
               {make.MakeName}
@@ -41,11 +39,11 @@ export default function HomePage() {
         </select>
 
         <select
-          className="w-full p-2 border rounded"
+          className="w-full p-2 border rounded "
           value={selectedYear}
           onChange={(e) => setSelectedYear(e.target.value)}
         >
-          <option value="">Выберите год</option>
+          <option value="">Select year</option>
           {years.map((year) => (
             <option key={year} value={year}>
               {year}
