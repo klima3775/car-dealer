@@ -22,15 +22,15 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen  p-4">
-      <h1 className="text-2xl font-bold mb-4">Select a car</h1>
-      <div className="w-full max-w-md space-y-4">
+    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-background">
+      <h1 className="text-2xl font-bold mb-4 text-foreground">Select a car</h1>
+      <div className="w-full max-w-md space-y-4 bg-white p-4 border border-gray-300 rounded shadow-md">
         <select
-          className="w-full p-2 border rounded"
+          className="w-full p-2 border rounded text-foreground"
           value={selectedMake}
           onChange={(e) => setSelectedMake(e.target.value)}
         >
-          <option value="">Select a car brands</option>
+          <option value="">Select a car brand</option>
           {makes.map((make) => (
             <option key={make.MakeId} value={make.MakeId}>
               {make.MakeName}
@@ -39,7 +39,7 @@ export default function HomePage() {
         </select>
 
         <select
-          className="w-full p-2 border rounded "
+          className="w-full p-2 border rounded text-foreground"
           value={selectedYear}
           onChange={(e) => setSelectedYear(e.target.value)}
         >
@@ -54,13 +54,13 @@ export default function HomePage() {
         <button
           className={`w-full p-2 rounded ${
             selectedMake && selectedYear
-              ? "bg-blue-500 text-black"
-              : "bg-gray-300 "
+              ? "bg-blue-500 text-white"
+              : "bg-gray-300 text-gray-500"
           }`}
           disabled={!selectedMake || !selectedYear}
           onClick={() => router.push(`/result/${selectedMake}/${selectedYear}`)}
         >
-          Далее
+          Next
         </button>
       </div>
     </div>
